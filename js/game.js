@@ -10,7 +10,7 @@ let state;
 
 function khoi_tao_trang_thai() {  /*hàm khởi tạo trạng thái ban đầu*/
     return {
-        gpa: 4.00,
+        gpa: 4.0,
         the_luc: 100,
         hanh_phuc: 100,
         semester: 1,
