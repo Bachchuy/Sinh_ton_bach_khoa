@@ -138,8 +138,8 @@ const events = {
     },
     'GAME_OVER_VO_LE': {
         type: 'END',
-        title: 'Bad Ending: Vô lễ',
-        text: 'Bạn bị 0 điểm rèn luyện, cắt học bổng. Một khởi đầu thật tệ.'
+        title: 'Thiếu điểm rèn luyện',
+        text: 'Bạn bị 0 điểm rèn luyện, cắt học bổng. Phạt nhảy 1 điệu bách khoa.'
     },
     'GAME_OVER_NGU_QUEN_THI': {
         type: 'END',

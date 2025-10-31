@@ -2,7 +2,7 @@
 // (Lưu ý: Chúng ta phải bọc trong DOMContentLoaded để đảm bảo HTML đã tải xong)
 
 let eventImage, eventText, choiceButtonsContainer, semesterDisplay;
-let gpaBar, gpaValue, healthBar, healthValue, happinessBar, happinessValue;
+let gpaBar, gpaValue, thanh_the_luc, diem_the_luc, thanh_hanh_phuc, diem_hanh_phuc;
 let modal, modalTitle, modalText, modalButton;
 
 // === 2. BỘ NÃO CỦA GAME: STATE (TRẠNG THÁI) ===
@@ -11,8 +11,8 @@ let state;
 function khoi_tao_trang_thai() {  /*hàm khởi tạo trạng thái ban đầu*/
     return {
         gpa: 4.00,
-        health: 100,
-        happiness: 100,
+        the_luc: 100,
+        hanh_phuc: 100,
         semester: 1,
         eventCount: 0, // Đếm sự kiện trong kỳ
         currentEventId: 'START_KY_1' // Sự kiện bắt đầu
@@ -46,15 +46,15 @@ function updateUI() {
     gpaValue.textContent = `${state.gpa.toFixed(2)} / 4.0`;
     gpaBar.style.width = `${(state.gpa / 4.0) * 100}%`;
 
-    // Health (Giới hạn từ 0 đến 100)
-    state.health = Math.max(0, Math.min(100, state.health));
-    healthValue.textContent = `${state.health} / 100`;
-    healthBar.style.width = `${state.health}%`;
+    // Thể lực (Giới hạn từ 0 đến 100)
+    state.the_luc = Math.max(0, Math.min(100, state.the_luc));
+    healthValue.textContent = `${state.the_luc} / 100`;
+    healthBar.style.width = `${state.the_luc}%`;
 
-    // Happiness (Giới hạn từ 0 đến 100)
-    state.happiness = Math.max(0, Math.min(100, state.happiness));
-    happinessValue.textContent = `${state.happiness} / 100`;
-    happinessBar.style.width = `${state.happiness}%`;
+    // Hạnh phúc (Giới hạn từ 0 đến 100)
+    state.hanh_phuc = Math.max(0, Math.min(100, state.hanh_phuc));
+    happinessValue.textContent = `${state.hanh_phuc} / 100`;
+    happinessBar.style.width = `${state.hanh_phuc}%`;
 }
 
 /**
@@ -63,8 +63,8 @@ function updateUI() {
 function applyEffects(effects) {
     if (!effects) return;
     if (effects.gpa) state.gpa += effects.gpa;
-    if (effects.health) state.health += effects.health;
-    if (effects.happiness) state.happiness += effects.happiness;
+    if (effects.the_luc) state.the_luc += effects.the_luc;
+    if (effects.hanh_phuc) state.hanh_phuc += effects.hanh_phuc;
 }
 
 /**
@@ -75,11 +75,11 @@ function checkGameOver() {
         showEvent('GAME_OVER_GPA');
         return true;
     }
-    if (state.health <= 0) {
+    if (state.the_luc <= 0) {
         showEvent('GAME_OVER_HEALTH');
         return true;
     }
-    if (state.happiness <= 0) {
+    if (state.hanh_phuc <= 0) {
         showEvent('GAME_OVER_HAPPINESS');
         return true;
     }
@@ -221,10 +221,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     semesterDisplay = document.getElementById('semester-display');
     gpaBar = document.getElementById('gpa-bar');
     gpaValue = document.getElementById('gpa-value');
-    healthBar = document.getElementById('health-bar');
-    healthValue = document.getElementById('health-value');
-    happinessBar = document.getElementById('happiness-bar');
-    happinessValue = document.getElementById('happiness-value');
+    thanh_the_luc = document.getElementById('thanh_the_luc');
+    diem_the_luc = document.getElementById('diem_the_luc');
+    thanh_hanh_phuc = document.getElementById('thanh_hanh_phuc');
+    diem_hanh_phuc = document.getElementById('diem_hanh_phuc');
     modal = document.getElementById('modal');
     modalTitle = document.getElementById('modal-title');
     modalText = document.getElementById('modal-text');
