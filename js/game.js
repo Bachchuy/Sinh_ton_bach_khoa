@@ -33,7 +33,14 @@ function startGame() {
 }
 
 /**
- * Cập nhật giao diện (Thanh chỉ số) dựa trên 'state'
+ * Đồng bộ trạng thái game (`state`) lên giao diện người chơi.
+ *
+ * Hành vi:
+ * - Giới hạn các giá trị (clamp) cho GPA, thể lực và hạnh phúc về trong khoảng hợp lệ
+ * - Cập nhật các thanh tiến trình (width) và các nhãn hiển thị giá trị
+ *
+ * Tham số: không
+ * Trả về: không
  */
 function updateUI() {
     if (!state) return; 
@@ -63,23 +70,44 @@ function updateUI() {
 }
 
 /**
- * Áp dụng thay đổi (effects) vào 'state'
+ * Áp dụng một đối tượng `effects` lên `state`.
+ *
+ * Hình dạng `effects` mong đợi (ví dụ):
+ * { gpa: -0.2, the_luc: -10, hanh_phuc: 5 }
+ *
+ * Hỗ trợ cả khóa tiếng Việt và một số alias tiếng Anh: `gpa`, `the_luc` / `health`, `hanh_phuc` / `happiness`.
+ * Lưu ý: Giá trị 0 cũng được áp dụng (không bỏ qua vì falsy).
+ *
+ * Tác dụng phụ: trực tiếp sửa đổi biến toàn cục `state`.
+ *
+ * Tham số:
+ * - effects {Object} — đối tượng chứa các thay đổi cần áp dụng (có thể null/undefined)
+ * Trả về: không
  */
 function applyEffects(effects) {
     if (!effects) return;
-    // Apply known keys (allow Vietnamese and English variants)
+    // Áp dụng các khóa hiệu ứng đã biết (hỗ trợ cả tên tiếng Việt và tên tiếng Anh)
     if ('gpa' in effects) state.gpa += effects.gpa;
     if ('the_luc' in effects) state.the_luc += effects.the_luc;
     if ('hanh_phuc' in effects) state.hanh_phuc += effects.hanh_phuc;
     if ('health' in effects) state.the_luc += effects.health; // alias
     if ('happiness' in effects) state.hanh_phuc += effects.happiness; // alias
 
-    // Debug: log applied effects
+    // Ghi log để debug: in ra đối tượng effects và trạng thái sau khi áp dụng
     console.log('applyEffects ->', effects, 'state after ->', { gpa: state.gpa, the_luc: state.the_luc, hanh_phuc: state.hanh_phuc });
 }
 
 /**
- * Kiểm tra điều kiện thua
+ * Kiểm tra các điều kiện thua (game over).
+ * Nếu phát hiện thua, hàm sẽ gọi `showEvent()` với id tương ứng để hiển thị màn kết thúc
+ * và trả về `true`.
+ *
+ * Điều kiện hiện tại:
+ * - GPA < 1.0 => thua do học lực
+ * - the_luc <= 0 => thua do kiệt sức
+ * - hanh_phuc <= 0 => thua do mất tinh thần
+ *
+ * Trả về: boolean — `true` nếu game over, ngược lại `false`.
  */
 function checkGameOver() {
     if (state.gpa < 1.0) {
@@ -98,7 +126,16 @@ function checkGameOver() {
 }
 
 /**
- * Hiển thị Modal Game Over / Win
+ * Hiển thị hộp thoại kết thúc (modal) với tiêu đề và nội dung.
+ *
+ * Hành vi:
+ * - Hiện modal và đặt `modalTitle`/`modalText`
+ * - Gắn `modalButton.onclick = startGame` để nút đóng/modal cho phép chơi lại
+ * - Thay đổi màu tiêu đề tùy theo là thắng hay thua (dựa vào chuỗi `title`)
+ *
+ * Tham số:
+ * - title {string} — tiêu đề modal (ví dụ: 'CHÚC MỪNG' hoặc 'THẤT BẠI')
+ * - text {string} — nội dung mô tả
  */
 function showGameOver(title, text) {
     modal.classList.remove('hidden');
@@ -117,7 +154,12 @@ function showGameOver(title, text) {
 }
 
 /**
- * Hàm tiện ích để tạo nút
+ * Tạo một nút DOM cho lựa chọn người chơi.
+ *
+ * Tham số:
+ * - text {string} — nội dung hiển thị trên nút
+ * - onClick {function} — callback khi người chơi nhấn nút
+ * Trả về: HTMLElement (button)
  */
 function createButton(text, onClick) {
     const button = document.createElement('button');
@@ -130,7 +172,20 @@ function createButton(text, onClick) {
 // === 5. CỖ MÁY KỊCH BẢN (EVENT DRIVER) ===
 
 /**
- * Hiển thị một sự kiện dựa trên eventId
+ * Hiển thị một sự kiện dựa trên `eventId` (lấy từ đối tượng `events`).
+ *
+ * Hành vi chính:
+ * - Cập nhật `state.currentEventId`
+ * - Lấy định nghĩa sự kiện từ `events[eventId]`
+ * - Nếu `event.type === 'END'` gọi `showGameOver`
+ * - Hiển thị ảnh (hoặc ảnh giữ chỗ nếu không có)
+ * - Tạo các nút lựa chọn dựa trên `choices`, hoặc xử lý `MINIGAME_RANDOM` / `TRANSITION`
+ * - Nếu eventId bắt đầu bằng `START_KY_` thì cập nhật `state.semester`
+ *
+ * Tham số:
+ * - eventId {string} — khóa của sự kiện trong đối tượng `events`
+ *
+ * Trả về: không
  */
 function showEvent(eventId) {
     // Cập nhật state
@@ -151,12 +206,12 @@ function showEvent(eventId) {
     }
 
     // Cập nhật UI
-    // Show event image if available, otherwise use a neutral placeholder to avoid broken image
+    // Hiển thị ảnh cho sự kiện: nếu có trường image dùng ảnh đó, nếu không có dùng ảnh giữ chỗ
     if (event.image) {
         eventImage.src = event.image;
         eventImage.style.display = '';
     } else {
-        // placeholder image (600x300) — keeps layout stable and avoids broken icon
+        // Ảnh giữ chỗ kích thước 600x300 — giữ bố cục ổn định và tránh hiển thị biểu tượng ảnh lỗi
         eventImage.src = 'https://placehold.co/600x300/9CA3AF/FFFFFF?text=No+Image';
         eventImage.style.display = '';
     }
@@ -203,7 +258,16 @@ function showEvent(eventId) {
 }
 
 /**
- * Xử lý khi người chơi bấm vào một lựa chọn (choice)
+ * Xử lý khi người chơi chọn một lựa chọn (`choice`).
+ *
+ * Bước thực hiện:
+ * 1) Áp dụng `choice.effects` lên `state` thông qua `applyEffects`
+ * 2) Cập nhật giao diện với `updateUI()`
+ * 3) Kiểm tra điều kiện thua (`checkGameOver()`)
+ * 4) Lấy `choice.nextEvent` và chuyển sang sự kiện tiếp theo bằng `showEvent()`
+ *
+ * Tham số:
+ * - choice {Object} — một đối tượng lựa chọn có thể chứa `text`, `effects`, `nextEvent`
  */
 function handleChoice(choice) {
     // 1. Áp dụng hiệu ứng
@@ -235,6 +299,11 @@ function handleChoice(choice) {
 window.addEventListener('DOMContentLoaded', (event) => {
     // Lấy các DOM elements sau khi chúng đã được tải
     eventImage = document.getElementById('event-image');
+    // Nếu ảnh không tải được (404 hoặc lỗi), chuyển sang ảnh giữ chỗ để tránh hiển thị icon lỗi
+    eventImage.onerror = function() {
+        eventImage.src = 'https://placehold.co/600x300/9CA3AF/FFFFFF?text=No+Image';
+        eventImage.style.display = '';
+    };
     eventText = document.getElementById('event-text');
     choiceButtonsContainer = document.getElementById('choice-buttons');
     semesterDisplay = document.getElementById('semester-display');

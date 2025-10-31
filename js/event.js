@@ -3,7 +3,7 @@
 const events = {
     // --- HỌC KỲ 1 ---
     'START_KY_1': {
-        image: "https://placehold.co/600x300/A00000/FFFFFF?text=Cong+Parabol+HUST",
+        image: "asset/image/parabol.jpg",
         text: "Chào mừng tân sinh viên K70! Bạn đã đặt chân đến cổng Parabol. Cả một tuần SHCD đang chờ.",
         choices: [
             // Khó hơn: Mệt hơn, chán hơn
