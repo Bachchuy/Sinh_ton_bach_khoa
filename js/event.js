@@ -68,7 +68,7 @@ const events = {
         ]
     },
     'DEFAULT_EVENT_KY_1': {
-        image: "https://placehold.co/600x300/F59E0B/FFFFFF?text=Nha+An+B1",
+        image: "asset/image/nha_an.jpg",
         text: "Một buổi tối bình thường. Bạn đi ăn ở:...",
         choices: [
             
