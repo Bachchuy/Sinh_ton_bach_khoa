@@ -151,7 +151,15 @@ function showEvent(eventId) {
     }
 
     // Cập nhật UI
-    if (event.image) eventImage.src = event.image; else eventImage.removeAttribute('src');
+    // Show event image if available, otherwise use a neutral placeholder to avoid broken image
+    if (event.image) {
+        eventImage.src = event.image;
+        eventImage.style.display = '';
+    } else {
+        // placeholder image (600x300) — keeps layout stable and avoids broken icon
+        eventImage.src = 'https://placehold.co/600x300/9CA3AF/FFFFFF?text=No+Image';
+        eventImage.style.display = '';
+    }
     eventText.textContent = event.text || '';
     choiceButtonsContainer.innerHTML = ''; // Xóa nút cũ
 
