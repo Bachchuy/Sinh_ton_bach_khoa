@@ -15,7 +15,7 @@ const events = {
         image: "https://placehold.co/600x300/6B7280/FFFFFF?text=Hoi+Truong+C2",
         text: "Bạn ngồi trong hội trường C2. Thầy nói gì đó về 'chuẩn đầu ra' và '650 TOEIC'. Chán quá...",
         choices: [
-            { text: "Cố gắng ngồi nghe", effects: { gpa: +0.05, hanh_phuc: -5 }, nextEvent: 'GIAI_TICH_1' },
+            { text: "Cố gắng ngồi nghe", effects: { gpa: +0.1, hanh_phuc: -5 }, nextEvent: 'GIAI_TICH_1' },
             { text: "Chơi điện thoại", effects: { the_luc: +10, hanh_phuc: +5 }, nextEvent: 'BI_BAT' }
         ]
     },

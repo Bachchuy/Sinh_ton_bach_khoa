@@ -2,7 +2,7 @@
 // (Lưu ý: Chúng ta phải bọc trong DOMContentLoaded để đảm bảo HTML đã tải xong)
 
 let eventImage, eventText, choiceButtonsContainer, semesterDisplay;
-let gpaBar, gpaValue, theLucBar, theLucValue, hanhPhucBar, hanhPhucValue;
+let thanh_gpa, diem_gpa, thanh_the_luc, diem_the_luc, thanh_hanh_phuc, diem_hanh_phuc;
 let modal, modalTitle, modalText, modalButton;
 
 // === 2. BỘ NÃO CỦA GAME: STATE (TRẠNG THÁI) ===
@@ -10,7 +10,8 @@ let state;
 
 function khoi_tao_trang_thai() {  /*hàm khởi tạo trạng thái ban đầu*/
     return {
-        gpa: 4.0,
+        // Tạm đặt GPA thấp hơn để dễ test (cần đổi lại về 4.0 khi phát hành)
+        gpa: 3.0,
         the_luc: 100,
         hanh_phuc: 100,
         semester: 1,
@@ -41,20 +42,24 @@ function updateUI() {
     if (state.semester > 8) state.semester = 8;
     semesterDisplay.textContent = `Học kỳ: ${state.semester} / 8`;
 
+
+    function fmt(n) { return n.toFixed(1); }
+
     // GPA (Giới hạn từ 0 đến 4.0)
     state.gpa = Math.max(0, Math.min(4.0, state.gpa));
-    if (gpaValue) gpaValue.textContent = `${state.gpa.toFixed(2)} / 4.0`;
-    if (gpaBar) gpaBar.style.width = `${(state.gpa / 4.0) * 100}%`;
+    if (diem_gpa) diem_gpa.textContent = `${fmt(state.gpa)} / ${fmt(4.0)}`;
+    if (thanh_gpa) thanh_gpa.style.width = `${(state.gpa / 4.0) * 100}%`;
 
-    // the_luc (Giới hạn từ 0 đến 100)
+    // Thể lực (Giới hạn từ 0 đến 100)
     state.the_luc = Math.max(0, Math.min(100, state.the_luc));
-    if (theLucValue) theLucValue.textContent = `${state.the_luc} / 100`;
-    if (theLucBar) theLucBar.style.width = `${state.the_luc}%`;
+    if (diem_the_luc) diem_the_luc.textContent = `${state.the_luc} / 100`;
+    if (thanh_the_luc) thanh_the_luc.style.width = `${state.the_luc}%`;
 
-    // hanh_phuc (Giới hạn từ 0 đến 100)
+    // Hạnh phúc (Giới hạn từ 0 đến 100)
     state.hanh_phuc = Math.max(0, Math.min(100, state.hanh_phuc));
-    if (hanhPhucValue) hanhPhucValue.textContent = `${state.hanh_phuc} / 100`;
-    if (hanhPhucBar) hanhPhucBar.style.width = `${state.hanh_phuc}%`;
+    if (diem_hanh_phuc) diem_hanh_phuc.textContent = `${state.hanh_phuc} / 100`;
+    if (thanh_hanh_phuc) thanh_hanh_phuc.style.width = `${state.hanh_phuc}%`;
+       
 }
 
 /**
@@ -62,12 +67,15 @@ function updateUI() {
  */
 function applyEffects(effects) {
     if (!effects) return;
-    // Support both Vietnamese keys (the_luc, hanh_phuc) and English (the_luc, hanh_phuc)
+    // Apply known keys (allow Vietnamese and English variants)
     if ('gpa' in effects) state.gpa += effects.gpa;
     if ('the_luc' in effects) state.the_luc += effects.the_luc;
     if ('hanh_phuc' in effects) state.hanh_phuc += effects.hanh_phuc;
-    if ('the_luc' in effects) state.the_luc += effects.the_luc;
-    if ('hanh_phuc' in effects) state.hanh_phuc += effects.hanh_phuc;
+    if ('health' in effects) state.the_luc += effects.health; // alias
+    if ('happiness' in effects) state.hanh_phuc += effects.happiness; // alias
+
+    // Debug: log applied effects
+    console.log('applyEffects ->', effects, 'state after ->', { gpa: state.gpa, the_luc: state.the_luc, hanh_phuc: state.hanh_phuc });
 }
 
 /**
@@ -222,12 +230,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     eventText = document.getElementById('event-text');
     choiceButtonsContainer = document.getElementById('choice-buttons');
     semesterDisplay = document.getElementById('semester-display');
-    gpaBar = document.getElementById('gpa-bar');
-    gpaValue = document.getElementById('gpa-value');
-    theLucBar = document.getElementById('the_luc-bar');
-    theLucValue = document.getElementById('the_luc-value');
-    hanhPhucBar = document.getElementById('hanh_phuc-bar');
-    hanhPhucValue = document.getElementById('hanh_phuc-value');
+    thanh_gpa = document.getElementById('thanh_gpa');
+    diem_gpa = document.getElementById('diem_gpa');
+    thanh_the_luc = document.getElementById('the_luc-bar');
+    diem_the_luc = document.getElementById('the_luc-value');
+    thanh_hanh_phuc = document.getElementById('hanh_phuc-bar');
+    diem_hanh_phuc = document.getElementById('hanh_phuc-value');
     modal = document.getElementById('modal');
     modalTitle = document.getElementById('modal-title');
     modalText = document.getElementById('modal-text');
