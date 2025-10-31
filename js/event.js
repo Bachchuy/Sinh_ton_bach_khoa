@@ -38,7 +38,8 @@ const events = {
         image: "https://placehold.co/600x300/9CA3AF/FFFFFF?text=Lac+Duong",
         text: "Bạn đi lạc qua bên HUCE... Cuối cùng cũng tìm thấy 3 nhưng đã kiệt sức.",
         choices: [
-            { text: "Vào học Giải Tích...", nextEvent: 'GIAI_TICH_1' }
+            { text: "Vào học Giải Tích...", nextEvent: 'GIAI_TICH_1' },
+            { text: "Sang luôn NEU chơi cho trọn bộ", nextEvent: 'TIM_NEU1' }
         ]
     },
     'GIAI_TICH_1': {
@@ -77,7 +78,7 @@ const events = {
             { text: "Vỉa hè. Đêm đó bạn đau bụng", effects: { the_luc: -25, hanh_phuc: +7 }, nextEvent: 'FINAL_EXAM_KY_1' }
         ]
     },
-    'TIM_NEU': {
+    'TIM_NEU1': {
         image: "asset/image/neu.jpg",
         text: "Bạn sang NEU chơi và thấy quá lắm bạn nữ xinh. Bạn quyết định: ",
         choices: [
@@ -105,7 +106,17 @@ const events = {
             
             { text: "Quyết tâm học!", effects: { gpa: +0.1, hanh_phuc: -10 }, nextEvent: 'VAT_LY_1' },
            
-            { text: "Tìm người yêu... (chuyển sang NEU)", effects: {gpa: -0.2, the_luc: +5,hanh_phuc: +10 }, nextEvent: 'VAT_LY_1' },
+            { text: "Tìm người yêu... (chuyển sang NEU)", effects: {gpa: -0.2, the_luc: +5,hanh_phuc: +10 }, nextEvent: 'TIM_NEU2' },
+        ]
+    },
+    'TIM_NEU2': {
+        image: "asset/image/neu.jpg",
+        text: "Bạn sang NEU chơi và thấy quá lắm bạn nữ xinh. Bạn quyết định: ",
+        choices: [
+      
+            { text: "Bắt chuyện xin infor", effects: { gpa: -0.3, hanh_phuc: +15 }, nextEvent: 'VAT_LY_1' },
+
+            { text: "Thôi, ngại quá không dám", effects: { gpa: +0.1, hanh_phuc: -15 }, nextEvent: 'VAT_LY_1' }
         ]
     },
     'VAT_LY_1': {
