@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bách Khoa Survival (Tái cấu trúc)</title>
+    
+    <!-- Tải Tailwind CSS (vẫn giữ) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Link đến file CSS ngoài -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Link đến các file JavaScript -->
+    <!-- QUAN TRỌNG: Nạp file "event.js" (dữ liệu) TRƯỚC file "game.js" (logic) -->
+    <script src="js/event.js" defer></script>
+    <script src="js/game.js" defer></script>
+
+</head>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Container chính (HTML giữ nguyên) -->
+    <div id="game-container" class="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden">
+        
+        <!-- Header Game -->
+        <header id="header" class="hust-red p-4 text-white">
+            <h1 class="text-2xl font-bold text-center">Bách Khoa Survival</h1>
+            <p id="semester-display" class="text-center text-sm opacity-90">Học kỳ: 1 / 8</p>
+        </header>
+
+        <!-- Thanh Trạng Thái (Stats Bar) -->
+        <div id="stats-bar" class="p-4 grid grid-cols-3 gap-4 bg-gray-100">
+            <!-- GPA -->
+            <div>
+                <label class="text-sm font-medium text-gray-700">GPA 🎓</label>
+                <div class="w-full bg-gray-300 rounded-full h-2.5 mt-1">
+                    <div id="gpa-bar" class="bg-blue-600 h-2.5 rounded-full progress-bar-inner" style="width: 62.5%"></div>
+                </div>
+                <span id="gpa-value" class="text-xs font-semibold text-blue-600">2.50 / 4.0</span>
+            </div>
+            <!-- Sức khỏe -->
+            <div>
+                <label class="text-sm font-medium text-gray-700">Sức khỏe ❤️</label>
+                <div class="w-full bg-gray-300 rounded-full h-2.5 mt-1">
+                    <div id="health-bar" class="bg-green-600 h-2.5 rounded-full progress-bar-inner" style="width: 100%"></div>
+                </div>
+                <span id="health-value" class="text-xs font-semibold text-green-600">100 / 100</span>
+            </div>
+            <!-- Hạnh phúc -->
+            <div>
+                <label class="text-sm font-medium text-gray-700">Hạnh phúc 😊</label>
+                <div class="w-full bg-gray-300 rounded-full h-2.5 mt-1">
+                    <div id="happiness-bar" class="bg-yellow-500 h-2.5 rounded-full progress-bar-inner" style="width: 100%"></div>
+                </div>
+                <span id="happiness-value" class="text-xs font-semibold text-yellow-500">100 / 100</span>
+            </div>
+        </div>
+
+        <!-- Màn hình chính của Game -->
+        <main class="p-6">
+            <!-- Hình ảnh sự kiện -->
+            <div id="image-display" class="mb-4">
+                <img id="event-image" src="https://placehold.co/600x300/A00000/FFFFFF?text=Cong+Parabol+HUST" alt="Hình ảnh sự kiện" class="w-full h-48 object-cover rounded-lg shadow-md">
+            </div>
+            
+            <!-- Văn bản sự kiện -->
+            <div id="text-display" class="mb-6 min-h-[100px] bg-gray-50 p-4 rounded-md border border-gray-200">
+                <p id="event-text" class="text-gray-800">Chào mừng tân sinh viên K6x! Bạn đã đặt chân đến cổng Parabol. Cả một tuần SHCD đang chờ.</p>
+            </div>
+
+            <!-- Các nút lựa chọn -->
+            <div id="choice-buttons" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- JavaScript sẽ tạo các nút ở đây -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal (Cửa sổ pop-up) cho Game Over -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+            <h2 id="modal-title" class="text-3xl font-bold hust-red-text mb-4">GAME OVER</h2>
+            <p id="modal-text" class="text-gray-700 mb-6">GPA của bạn đã xuống dưới 1.0. Hội đồng kỷ luật đã gửi thư về cho gia đình bạn.</p>
+            <button id="modal-button" class="w-full hust-red text-white font-bold py-2 px-4 rounded-lg hover:bg-red-900 transition-colors">
+                Chơi lại
+            </button>
+        </div>
+    </div>
+
+    <!-- Không còn <script> nội bộ ở đây nữa -->
+
+</body>
+</html>
