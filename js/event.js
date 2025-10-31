@@ -7,8 +7,8 @@ const events = {
         text: "Chào mừng tân sinh viên K70! Bạn đã đặt chân đến cổng Parabol. Cả một tuần SHCD đang chờ.",
         choices: [
             { text: "Nghiêm túc đi học tuần SHCD", effects: { happiness: -10, health: -5 }, nextEvent: 'SHCD_NGHIEM_TUC' },
-            { text: "Trốn đi net ở KTX", effects: { happiness: +10 }, nextEvent: 'TRON_DI_NET' },
-            { text: "Tìm đường đến giảng đường D8", effects: { health: -10 }, nextEvent: 'TIM_D8' }
+            { text: "Trốn đi net", effects: { happiness: +10 }, nextEvent: 'TRON_DI_NET' },
+            { text: "Tìm đường sang D3", effects: { health: -10 }, nextEvent: 'TIM_D3' }
         ]
     },
     'SHCD_NGHIEM_TUC': {
@@ -27,7 +27,7 @@ const events = {
             { text: "Thông đêm!", effects: { happiness: +30, health: -40 }, nextEvent: 'NGU_QUEN_THI' }
         ]
     },
-    'TIM_D8': {
+    'TIM_D3': {
         image: "https://placehold.co/600x300/9CA3AF/FFFFFF?text=Lac+Duong",
         text: "Bạn đi lạc qua cả khu Viện... Cuối cùng cũng tìm thấy D8 nhưng đã kiệt sức.",
         choices: [
