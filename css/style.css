@@ -15,3 +15,22 @@ body {
 .progress-bar-inner {
     transition: width 0.5s ease-in-out;
 }
+
+/* Responsive image container: giữ tỉ lệ 16:9 và cho ảnh co dãn theo khung */
+#image-display {
+    position: relative;
+    width: 100%;
+    /* padding-top = height/width -> 9/16 = 56.25% (tỉ lệ 16:9) */
+    padding-top: 56.25%;
+}
+
+#image-display img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* giữ tỉ lệ và crop nếu cần */
+    border-radius: 0.5rem; /* khớp với rounded-lg */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
